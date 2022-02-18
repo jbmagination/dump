@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://www.desmos.com/api/v1.7/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6&lang=all"></script>
-  <script src="./desModder/preloadScript.js"></script>
+  <script src="./desmodder/preloadScript.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <style>
     html, body {
@@ -52,7 +52,7 @@
         if (new URLSearchParams(window.location.search).get('noDesModder') == null) {
             var desModder=document.createElement('script');
             desModder.type='text/javascript';
-            desModder.src='./desModder/script.js';
+            desModder.src='./desmodder/script.js';
             document.getElementsByTagName('head')[0].appendChild(desModder);
         }
 
