@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://www.desmos.com/api/v1.7/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6&lang=all"></script>
+  <script src="./desModder/preloadScript.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #calculator {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="calculator"></div>
+  <script>
+    function ready(fn) {
+	    if (document.readyState != 'loading'){
+	      fn();
+      } else {
+        document.addEventListener('DOMContentLoaded', fn);
+      }
+    }
+    var Calc = Desmos.GraphingCalculator(document.getElementById('calculator'), {border: false });
+    if (new URLSearchParams(window.location.search).get('id')) {
+	    axios(`https://saved-work.desmos.com/calc-states/production/${new URLSearchParams(window.location.search).get('id')}`)
+		  .then(response => {
+			  Calc.setState(response.data);
+		  })
+    }
+    if (new URLSearchParams(window.location.search).get('lang')) {
+	    Calc.updateSettings({ language: `${new URLSearchParams(window.location.search).get('lang')}` });  
+    }
+    ready(function(){
+        if (new URLSearchParams(window.location.search).get('noDesThree') == null) {
+	        var desThree=document.createElement('script');
+	        desThree.type='text/javascript';
+	        desThree.src='https://github.com/jared-hughes/DesThree/releases/latest/download/DesThree.user.js';
+            document.getElementsByTagName('head')[0].appendChild(desThree);
+        }
+
+        if (new URLSearchParams(window.location.search).get('noDesModder') == null) {
+            var desModder=document.createElement('script');
+            desModder.type='text/javascript';
+            desModder.src='./desModder/script.js';
+            document.getElementsByTagName('head')[0].appendChild(desModder);
+        }
+
+	})
+    // if (new URLSearchParams(window.location.search).get('noDesThree') == null) {
+    //     async function threeHeaderHide() {
+    //         if (document.querySelector('.dcg-expressionlist').querySelector('.dcg-expressionitem[expr-id="@3-header"]')) {
+    //             document.querySelector('.dcg-expressionlist').querySelector('.dcg-expressionitem[expr-id="@3-header"]').classList.add('three-header-hidden')
+    //         }
+    //         setTimeout(desThreeLoad, 500)
+    //     }
+    //     threeHeaderHide()
+    // }
+    async function noAffiliation() {
+        document.querySelector('.dcg-powered-by').textContent = 'not affiliated with'
+    }
+    noAffiliation()
+  </script>
+</body>
+</html>
