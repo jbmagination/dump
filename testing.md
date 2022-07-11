@@ -1,0 +1,1 @@
+[hey](javascript:alert('hey'))
